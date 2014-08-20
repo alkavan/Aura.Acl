@@ -13,6 +13,10 @@ namespace Aura\Acl;
 
 use Aura\Acl\Exception;
 
+/**
+ * Acl Service Class
+ * @package Aura.Acl
+ */
 class Acl implements AclInterface
 {
 	/**
@@ -453,9 +457,10 @@ class Acl implements AclInterface
 	/**
 	 * Removes "allow" permissions from the ACL
 	 *
-	 * @param  Role|string|array           $roles
-	 * @param  Resource|string|array            $resources
-	 * @param  string|array                     $privileges
+	 * @param  Role|string|array      $roles
+	 * @param  Resource|string|array  $resources
+	 * @param  string|array           $privileges
+	 *
 	 * @return Acl Provides a fluent interface
 	 */
 	public function removeAllow($roles = null, $resources = null, $privileges = null)
@@ -466,9 +471,10 @@ class Acl implements AclInterface
 	/**
 	 * Removes "deny" restrictions from the ACL
 	 *
-	 * @param  Role|string|array             $roles
-	 * @param  Resource|string|array              $resources
-	 * @param  string|array                       $privileges
+	 * @param  Role|string|array      $roles
+	 * @param  Resource|string|array  $resources
+	 * @param  string|array           $privileges
+	 *
 	 * @return Acl Provides a fluent interface
 	 */
 	public function removeDeny($roles = null, $resources = null, $privileges = null)
@@ -517,13 +523,15 @@ class Acl implements AclInterface
 	 * when the rule's assertion fails. This is because the ACL needs to provide expected
 	 * behavior when an assertion upon the default ACL rule fails.
 	 *
-	 * @param  string                                   $operation
-	 * @param  string                                   $type
-	 * @param  Role|string|array          $roles
-	 * @param  Resource|string|array  $resources
-	 * @param  string|array                             $privileges
-	 * @param  Assertion\AssertionInterface             $assert
+	 * @param  string                        $operation
+	 * @param  string                        $type
+	 * @param  Role|string|array             $roles
+	 * @param  Resource|string|array         $resources
+	 * @param  string|array                  $privileges
+	 * @param  Assertion\AssertionInterface  $assert
+	 *
 	 * @throws Exception\InvalidArgument
+	 *
 	 * @return Acl Provides a fluent interface
 	 */
 	public function setRule($operation, $type, $roles = null, $resources = null,
@@ -669,6 +677,7 @@ class Acl implements AclInterface
 	 * Returns all child resources from the given resource.
 	 *
 	 * @param  Resource|string    $resource
+	 *
 	 * @return array Array of 'Resource' objects
 	 */
 	protected function getChildResources(Resource $resource)
@@ -708,9 +717,10 @@ class Acl implements AclInterface
 	 * and its respective parents are checked similarly before the lower-priority parents of
 	 * the Role are checked.
 	 *
-	 * @param  Role|string    $role
-	 * @param  Resource|string     $resource
-	 * @param  string              $privilege
+	 * @param  Role|string      $role
+	 * @param  Resource|string  $resource
+	 * @param  string           $privilege
+	 *
 	 * @return bool
 	 */
 	public function isAllowed($role = null, $resource = null, $privilege = null)
@@ -813,6 +823,7 @@ class Acl implements AclInterface
 	 *
 	 * @param  Role      $role
 	 * @param  Resource  $resource
+	 *
 	 * @return bool|null
 	 */
 	protected function roleDFSAllPrivileges(Role $role, Resource $resource = null)
@@ -849,8 +860,10 @@ class Acl implements AclInterface
 	 * @param  Role      $role
 	 * @param  Resource  $resource
 	 * @param  array     $dfs
-	 * @return bool|null
+	 *
 	 * @throws Exception\Runtime
+	 *
+	 * @return bool|null
 	 */
 	protected function roleDFSVisitAllPrivileges(Role $role, Resource $resource = null, &$dfs = null)
 	{
@@ -887,8 +900,8 @@ class Acl implements AclInterface
 	 * @param  Role      $role
 	 * @param  Resource  $resource
 	 * @param  string    $privilege
-	 * @return bool|null
 	 * @throws Exception\Runtime
+	 * @return bool|null
 	 */
 	protected function roleDFSOnePrivilege(Role $role, Resource $resource = null, $privilege = null)
 	{
@@ -925,12 +938,14 @@ class Acl implements AclInterface
 	 *
 	 * This method is used by the internal depth-first search algorithm and may modify the DFS data structure.
 	 *
-	 * @param  Role           $role
-	 * @param  Resource   $resource
-	 * @param  string                       $privilege
-	 * @param  array                        $dfs
-	 * @return bool|null
+	 * @param  Role      $role
+	 * @param  Resource  $resource
+	 * @param  string    $privilege
+	 * @param  array     $dfs
+	 *
 	 * @throws Exception\Runtime
+	 *
+	 * @return bool|null
 	 */
 	protected function roleDFSVisitOnePrivilege(Role $role, Resource $resource = null, $privilege = null,
 												&$dfs = null
@@ -973,9 +988,10 @@ class Acl implements AclInterface
 	 * If all three parameters are null, then the default ACL rule type is returned,
 	 * based on whether its assertion method passes.
 	 *
-	 * @param  null|Resource    $resource
-	 * @param  null|Role   $role
-	 * @param  null|string      $privilege
+	 * @param  null|Resource  $resource
+	 * @param  null|Role      $role
+	 * @param  null|string    $privilege
+	 *
 	 * @return string|null
 	 */
 	protected function getRuleType(Resource $resource = null, Role $role = null, $privilege = null)
@@ -1028,9 +1044,10 @@ class Acl implements AclInterface
 	 *
 	 * If the $create parameter is true, then a rule set is first created and then returned to the caller.
 	 *
-	 * @param  Resource      $resource
-	 * @param  Role     $role
-	 * @param  bool          $create
+	 * @param  Resource  $resource
+	 * @param  Role      $role
+	 * @param  bool      $create
+	 *
 	 * @return array|null
 	 */
 	protected function &getRules(Resource $resource = null, Role $role = null, $create = false)
