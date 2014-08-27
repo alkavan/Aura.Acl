@@ -87,8 +87,13 @@ class Acl implements AclInterface
 		'byResourceId' => array()
 	);
 
+	/**
+	 * New instance of role
+	 * @param string $role
+	 * @return Role
+	 */
 	public function newRole($role) {
-		return new \Aura\Acl\Role($role);
+		return new Role($role);
 	}
 
 	/**
@@ -113,7 +118,7 @@ class Acl implements AclInterface
 	public function addRole($role, $parents = null)
 	{
 		if (is_string($role)) {
-			$role = new Role($role);
+			$role = $this->newRole($role);
 		} elseif ( ! $role instanceof Role) {
 			throw new Exception\InvalidArgument(
 				'addRole() expects $role to be of type Aura\Acl\Role'
@@ -229,8 +234,13 @@ class Acl implements AclInterface
 		return $this;
 	}
 
+	/**
+	 * New instance of resource
+	 * @param string $resource
+	 * @return Resource
+	 */
 	public function newResource($resource) {
-		return new \Aura\Acl\Resource($resource);
+		return new Resource($resource);
 	}
 
 	/**
@@ -249,7 +259,7 @@ class Acl implements AclInterface
 	public function addResource($resource, $parent = null)
 	{
 		if (is_string($resource)) {
-			$resource = new Resource($resource);
+			$resource = $this->newResource($resource);
 		} elseif ( ! $resource instanceof Resource) {
 			throw new Exception\InvalidArgument(
 				'addResource() expects $resource to be of type Aura\Acl\Resource'
