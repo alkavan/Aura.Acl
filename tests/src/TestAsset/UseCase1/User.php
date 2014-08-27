@@ -15,15 +15,15 @@ use Aura\Acl\Role;
 
 class User extends Role
 {
-	public $role = 'guest';
+    public $role = 'guest';
 
-	public function __construct($roleId)
-	{
-		$this->role = (string) $roleId;
-	}
+    public function __construct($roleId)
+    {
+        $this->role = (string) $roleId;
+    }
 
-	public function getRoleId()
-	{
-		return $this->role;
-	}
+    public function getRoleId()
+    {
+        return $this->role;
+    }
 }

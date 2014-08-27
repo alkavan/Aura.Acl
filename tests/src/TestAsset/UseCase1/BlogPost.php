@@ -15,5 +15,4 @@ use Aura\Acl\Resource;
 
 class BlogPost extends Resource
 {
-
 }

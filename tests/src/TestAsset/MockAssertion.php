@@ -19,15 +19,15 @@ use Aura\Acl\Assertion;
 
 class MockAssertion implements Assertion\AssertionInterface
 {
-	protected $_returnValue;
+    protected $_returnValue;
 
-	public function __construct($returnValue)
-	{
-		$this->_returnValue = (bool) $returnValue;
-	}
+    public function __construct($returnValue)
+    {
+        $this->_returnValue = (bool) $returnValue;
+    }
 
-	public function assert(Acl $acl, Role $role = null, Resource $resource = null, $privilege = null)
-	{
-		return $this->_returnValue;
-	}
+    public function assert(Acl $acl, Role $role = null, Resource $resource = null, $privilege = null)
+    {
+        return $this->_returnValue;
+    }
 }

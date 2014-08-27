@@ -1,38 +1,38 @@
 {
-	"name": "aura/acl",
-	"type": "library",
-	"description": "Access Control List component from AuraPHP",
-	"keywords": [
-		"acl",
-		"access",
-		"control"
-	],
-	"homepage": "https://github.com/alkavan/Aura.Acl/releases",
-	"license": "BSD-2-Clause",
-	"authors": [
-		{
-			"name": "Aura.Acl Contributors",
-			"homepage": "https://github.com/alkavan/Aura.Acl/contributors"
-		}
-	],
-	"require": {
-		"php": ">=5.3.0"
-	},
-	"autoload": {
-		"psr-4": {
-			"Aura\\Acl\\": "src/",
-			"Aura\\Acl\\_Config\\": "config/"
-		}
-	},
-	"extra": {
-		"aura": {
-			"type": "library",
-			"config": {
-				"common": "Aura\\Acl\\_Config\\Common"
-			}
-		},
-		"branch-alias": {
-			"dev-develop-2": "2.0.x-dev"
-		}
-	}
+    "name": "aura/acl",
+    "type": "library",
+    "description": "Access Control List component from AuraPHP",
+    "keywords": [
+        "acl",
+        "access",
+        "control"
+    ],
+    "homepage": "https://github.com/alkavan/Aura.Acl/releases",
+    "license": "BSD-2-Clause",
+    "authors": [
+        {
+            "name": "Aura.Acl Contributors",
+            "homepage": "https://github.com/alkavan/Aura.Acl/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Aura\\Acl\\": "src/",
+            "Aura\\Acl\\_Config\\": "config/"
+        }
+    },
+    "extra": {
+        "aura": {
+            "type": "library",
+            "config": {
+                "common": "Aura\\Acl\\_Config\\Common"
+            }
+        },
+        "branch-alias": {
+            "dev-develop-2": "2.0.x-dev"
+        }
+    }
 }
