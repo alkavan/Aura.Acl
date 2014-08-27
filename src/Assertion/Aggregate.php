@@ -25,12 +25,6 @@ class Aggregate implements AssertionInterface
 
 	protected $assertions = array();
 
-	/**
-	 *
-	 * @var $manager Manager
-	 */
-	protected $assertionManager;
-
 	protected $mode = self::MODE_ALL;
 
 	/**
@@ -75,27 +69,6 @@ class Aggregate implements AssertionInterface
 	}
 
 	/**
-	 *
-	 * @param Manager $manager
-	 *
-	 * @return self
-	 */
-	public function setAssertionManager(Manager $manager)
-	{
-		$this->assertionManager = $manager;
-
-		return $this;
-	}
-
-	/**
-	 * @return Manager
-	 */
-	public function getAssertionManager()
-	{
-		return $this->assertionManager;
-	}
-
-	/**
 	 * Set assertion chain behavior
 	 *
 	 * AssertionAggregate should assert to true when:
@@ -131,10 +104,14 @@ class Aggregate implements AssertionInterface
 	}
 
 	/**
-	 * ???
+	 * Assert resource-role
 	 *
-	 * @throws Runtime
+	 * @param Acl $acl
+	 * @param Role $role
+	 * @param Resource $resource
+	 * @param null $privilege
 	 * @return bool
+	 * @throws \Aura\Acl\Exception\Runtime
 	 */
 	public function assert(Acl $acl, Role $role = null, Resource $resource = null, $privilege = null)
 	{
@@ -145,20 +122,10 @@ class Aggregate implements AssertionInterface
 
 		foreach ($this->assertions as $assertion) {
 
-			// jit assertion mloading
+			// jit assertion loading
 			if (! $assertion instanceof AssertionInterface) {
 				if (class_exists($assertion)) {
 					$assertion = new $assertion();
-				} else {
-					if ($manager = $this->getAssertionManager()) {
-						try {
-							$assertion = $manager->get($assertion);
-						} catch (\Exception $e) {
-							throw new Exception\InvalidAssertion('assertion "' . $assertion . '" is not defined in assertion manager');
-						}
-					} else {
-						throw new Runtime('no assertion manager is set - cannot look up for assertions');
-					}
 				}
 			}
 

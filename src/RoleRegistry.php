@@ -44,43 +44,43 @@ class RoleRegistry
 	 */
 	public function add(Role $role, $parents = null)
 	{
-		$roleId = $role->getRoleId();
+		$role_id = $role->getRoleId();
 
-		if ($this->has($roleId)) {
+		if ($this->has($role_id)) {
 			throw new Exception\InvalidArgument(sprintf(
 				'Role id "%s" already exists in the registry',
-				$roleId
+				$role_id
 			));
 		}
 
-		$roleParents = array();
+		$role_parents = array();
 
 		if (null !== $parents) {
-			if (!is_array($parents) && !$parents instanceof Traversable) {
+			if ( ! is_array($parents) && ! $parents instanceof Traversable) {
 				$parents = array($parents);
 			}
 			foreach ($parents as $parent) {
 				try {
 					if ($parent instanceof Role) {
-						$roleParentId = $parent->getRoleId();
+						$role_parent_id = $parent->getRoleId();
 					} else {
-						$roleParentId = $parent;
+						$role_parent_id = $parent;
 					}
-					$roleParent = $this->get($roleParentId);
+					$role_parent = $this->get($role_parent_id);
 				} catch (\Exception $e) {
 					throw new Exception\InvalidArgument(sprintf(
 						'Parent Role id "%s" does not exist',
-						$roleParentId
+						$role_parent_id
 					), 0, $e);
 				}
-				$roleParents[$roleParentId] = $roleParent;
-				$this->roles[$roleParentId]['children'][$roleId] = $role;
+				$role_parents[$role_parent_id] = $role_parent;
+				$this->roles[$role_parent_id]['children'][$role_id] = $role;
 			}
 		}
 
-		$this->roles[$roleId] = array(
+		$this->roles[$role_id] = array(
 			'instance' => $role,
-			'parents'  => $roleParents,
+			'parents'  => $role_parents,
 			'children' => array(),
 		);
 
@@ -99,16 +99,16 @@ class RoleRegistry
 	public function get($role)
 	{
 		if ($role instanceof Role) {
-			$roleId = $role->getRoleId();
+			$role_id = $role->getRoleId();
 		} else {
-			$roleId = (string) $role;
+			$role_id = (string) $role;
 		}
 
 		if (!$this->has($role)) {
-			throw new Exception\InvalidArgument("Role '$roleId' not found");
+			throw new Exception\InvalidArgument("Role '{$role_id}' not found");
 		}
 
-		return $this->roles[$roleId]['instance'];
+		return $this->roles[$role_id]['instance'];
 	}
 
 	/**
@@ -122,12 +122,12 @@ class RoleRegistry
 	public function has($role)
 	{
 		if ($role instanceof Role) {
-			$roleId = $role->getRoleId();
+			$role_id = $role->getRoleId();
 		} else {
-			$roleId = (string) $role;
+			$role_id = (string) $role;
 		}
 
-		return isset($this->roles[$roleId]);
+		return isset($this->roles[$role_id]);
 	}
 
 	/**
@@ -145,9 +145,9 @@ class RoleRegistry
 	 */
 	public function getParents($role)
 	{
-		$roleId = $this->get($role)->getRoleId();
+		$role_id = $this->get($role)->getRoleId();
 
-		return $this->roles[$roleId]['parents'];
+		return $this->roles[$role_id]['parents'];
 	}
 
 	/**
@@ -161,27 +161,27 @@ class RoleRegistry
 	 *
 	 * @param  Role|string  $role
 	 * @param  Role|string  $inherit
-	 * @param  bool         $onlyParents
+	 * @param  bool         $only_parents
 	 * @throws Exception\InvalidArgument
 	 * @return bool
 	 */
-	public function inherits($role, $inherit, $onlyParents = false)
+	public function inherits($role, $inherit, $only_parents = false)
 	{
 		try {
-			$roleId    = $this->get($role)->getRoleId();
-			$inheritId = $this->get($inherit)->getRoleId();
+			$role_id    = $this->get($role)->getRoleId();
+			$inherit_id = $this->get($inherit)->getRoleId();
 		} catch (Exception $e) {
 			throw new Exception\InvalidArgument($e->getMessage(), $e->getCode(), $e);
 		}
 
-		$inherits = isset($this->roles[$roleId]['parents'][$inheritId]);
+		$inherits = isset($this->roles[$role_id]['parents'][$inherit_id]);
 
-		if ($inherits || $onlyParents) {
+		if ($inherits || $only_parents) {
 			return $inherits;
 		}
 
-		foreach ($this->roles[$roleId]['parents'] as $parentId => $parent) {
-			if ($this->inherits($parentId, $inheritId)) {
+		foreach ($this->roles[$role_id]['parents'] as $parent_id => $parent) {
+			if ($this->inherits($parent_id, $inherit_id)) {
 				return true;
 			}
 		}
@@ -201,19 +201,22 @@ class RoleRegistry
 	public function remove($role)
 	{
 		try {
-			$roleId = $this->get($role)->getRoleId();
+			$role_id = $this->get($role)->getRoleId();
 		} catch (Exception $e) {
 			throw new Exception\InvalidArgument($e->getMessage(), $e->getCode(), $e);
 		}
 
-		foreach ($this->roles[$roleId]['children'] as $childId => $child) {
-			unset($this->roles[$childId]['parents'][$roleId]);
-		}
-		foreach ($this->roles[$roleId]['parents'] as $parentId => $parent) {
-			unset($this->roles[$parentId]['children'][$roleId]);
+		// Iterate children
+		foreach ($this->roles[$role_id]['children'] as $child_id => $child) {
+			unset($this->roles[$child_id]['parents'][$role_id]);
 		}
 
-		unset($this->roles[$roleId]);
+		// Iterate parents
+		foreach ($this->roles[$role_id]['parents'] as $parent_id => $parent) {
+			unset($this->roles[$parent_id]['children'][$role_id]);
+		}
+
+		unset($this->roles[$role_id]);
 
 		return $this;
 	}

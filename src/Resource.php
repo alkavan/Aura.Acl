@@ -18,16 +18,16 @@ class Resource
 	 *
 	 * @var string
 	 */
-	protected $resourceId;
+	protected $resource_id;
 
 	/**
 	 * Sets the Resource identifier
 	 *
-	 * @param  string $resourceId
+	 * @param  string $resource_id
 	 */
-	public function __construct($resourceId)
+	public function __construct($resource_id)
 	{
-		$this->resourceId = (string) $resourceId;
+		$this->resource_id = (string) $resource_id;
 	}
 
 	/**
@@ -37,7 +37,7 @@ class Resource
 	 */
 	public function getResourceId()
 	{
-		return $this->resourceId;
+		return $this->resource_id;
 	}
 
 	/**

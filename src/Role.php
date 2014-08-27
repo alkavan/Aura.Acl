@@ -19,16 +19,16 @@ class Role
 	 *
 	 * @var string
 	 */
-	protected $roleId;
+	protected $role_id;
 
 	/**
 	 * Sets the Role identifier
 	 *
-	 * @param string $roleId
+	 * @param string $role_id
 	 */
-	public function __construct($roleId)
+	public function __construct($role_id)
 	{
-		$this->roleId = (string) $roleId;
+		$this->role_id = (string) $role_id;
 	}
 
 	/**
@@ -38,7 +38,7 @@ class Role
 	 */
 	public function getRoleId()
 	{
-		return $this->roleId;
+		return $this->role_id;
 	}
 
 	/**
